@@ -1,0 +1,22 @@
+CREATE TABLE PLAYER (
+You Char(10) NOT NULL);
+
+INSERT INTO PLAYER (You) VALUES ('Rock')
+INSERT INTO PLAYER (You) VALUES ('Paper')
+INSERT INTO PLAYER (You) VALUES ('Scissors')
+
+
+CREATE TABLE Computer (
+Computer Char(10) NOT NULL);
+
+INSERT INTO COMPUTER (Computer) VALUES ('Rock')
+INSERT INTO COMPUTER (Computer) VALUES ('Paper')
+INSERT INTO COMPUTER (Computer) VALUES ('Scissors')
+
+SELECT TOP 1 You, Computer, CASE
+WHEN you = 'rock' and computer = 'rock' or you = 'scissors' and computer = 'scissors' or you = 'paper' and computer = 'paper' then 'Tie'
+WHEN you = 'rock' and computer = 'scissors' or you = 'scissors' and computer = 'paper' or you = 'paper' and computer = 'rock' then 'YOU WIN!'
+ELSE 'You lose :('
+END AS RESULT
+FROM PLAYER as p1 CROSS JOIN COMPUTER as p2
+ORDER BY ABS(Checksum(NewID())) 
