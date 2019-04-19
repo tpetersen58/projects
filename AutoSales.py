@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 
 conn = pymssql.connect(server="127.0.0.1", user="taylorp",password='taylorp', port=1433)
 
-stmt = '''SELECT DISTINCT CASE Make WHEN 'Mercedes Benz' THEN 'Benz' ELSE Make END AS Make
+stmt = '''SELECT CASE Make WHEN 'Mercedes Benz' THEN 'Benz' ELSE Make END AS Make
 FROM CARS
+GROUP BY Make
+ORDER BY AVG(YearlyTotal) DESC
 '''
 stmt2 = ''' SELECT AVG(YearlyTotal)/1000000 as Sum
 FROM CARS
@@ -14,7 +16,6 @@ ORDER BY AVG(YearlyTotal) DESC'''
 
 df = pd.read_sql(stmt, conn)
 df2 = pd.read_sql(stmt2, conn)
-
 Make = df.values.tolist()
 Sum = df2.values.tolist()
 
