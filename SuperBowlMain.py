@@ -36,9 +36,11 @@ ax.set_ylim(0, 5)
 plt.grid(linestyle=':')
 plt.xlabel('Super Bowl', fontsize=20)
 plt.ylabel('30 Sec Ad Cost in Dollars', fontsize=20)
-plt.title('Super Bowl 30 Second Ad Cost', fontsize=20)
-plt.xticks(range(1, 54, 2))
+plt.title('Cost of a 30 Second Super Bowl Ad', fontsize=20)
+plt.xticks(np.arange(1,54, step=2))
 plt.yticks(np.arange(6, step=.5))
+ax.text(-.5,-.5,'1/15/67')
+plt.text(51.5, -.5, '2/3/19')
 
 def animate(i):
     data = frame.iloc[:int(i+1)]
@@ -47,5 +49,5 @@ def animate(i):
     plt.setp(p.lines, linewidth=4)
 
 ani = matplotlib.animation.FuncAnimation(fig, animate, frames=54, repeat=True)
-#plt.show()
-ani.save('SuperBowl.mp4', writer=writer)
+plt.show()
+#ani.save('SuperBowl.mp4', writer=writer)
