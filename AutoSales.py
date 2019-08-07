@@ -1,53 +1,31 @@
-import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib
+import pymssql
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 
-initial = pd.read_excel('SuperBowlData.xlsx', sheet_name = 'Sheet1', skiprows = 0)
+conn = pymssql.connect(server="127.0.0.1", user="taylorp",password='taylorp', port=1433)
 
-def get_data(table,rownum,title):
-    data = pd.DataFrame(table.loc[rownum][1:].astype(float))
-    data.columns = {title}
-    return data
+stmt = '''SELECT DISTINCT CASE Make WHEN 'Mercedes Benz' THEN 'Benz' ELSE Make END AS Make
+FROM CARS
+'''
+stmt2 = ''' SELECT AVG(YearlyTotal)/1000000 as Sum
+FROM CARS
+GROUP BY Make
+ORDER BY AVG(YearlyTotal) DESC'''
 
-title = 'Cost (millions of dollars)'
+df = pd.read_sql(stmt, conn)
+df2 = pd.read_sql(stmt2, conn)
 
-d = get_data(initial,3,title)
-x = np.array(d.index)
-y = np.array(d[title]/1000000)
+Make = df.values.tolist()
+Sum = df2.values.tolist()
 
-frame = pd.DataFrame(y, x)
-frame.columns = {title}
+colorList = ['seagreen','mediumpurple','goldenrod','mediumblue']
+for i in range(len(Make)):
+    plt.title("Avg US Auto Sales/Year")
+    plt.ylabel('Auto Sales/Year (millions)')
+    fig = plt.figure(1, figsize=(20,3))
+    ax = plt.subplot(111)
+    plt.xticks(rotation=90)
+    plt.bar(Make[i], Sum[i]) #color=colorList[i%4])
+    plt.tight_layout()
 
-plt.rcParams['animation.ffmpeg_path'] = 'C:\\Users\\taylorp.DUTRO\\Downloads\\FFmpeg\\FFmpeg\\bin\\ffmpeg.exe'
-
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=12, metadata=dict(artist='Me'), bitrate=1800)
-
-fig = plt.figure(figsize=(12,6))
-fig.patch.set_facecolor('lightgray')
-ax = fig.add_subplot(1, 1, 1)
-#plt.xlim(1, 54)
-#plt.ylim(np.min(frame)[0], np.max(frame)[0])
-ax.set_xlim(1, 54)
-ax.set_ylim(0, 5)
-plt.grid(linestyle=':')
-plt.xlabel('Super Bowl', fontsize=20)
-plt.ylabel('30 Sec Ad Cost in Dollars', fontsize=20)
-plt.title('Cost of a 30 Second Super Bowl Ad', fontsize=20)
-plt.xticks(np.arange(1,54, step=2))
-plt.yticks(np.arange(6, step=.5))
-ax.text(-.5,-.5,'1/15/67')
-plt.text(51.5, -.5, '2/3/19')
-
-def animate(i):
-    data = frame.iloc[:int(i+1)]
-    p = sns.lineplot(x=data.index, y=data[title], data=data, color ='b')
-    p.tick_params(labelsize=12)
-    plt.setp(p.lines, linewidth=4)
-
-ani = matplotlib.animation.FuncAnimation(fig, animate, frames=54, repeat=True)
 plt.show()
-#ani.save('SuperBowl.mp4', writer=writer)
