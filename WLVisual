@@ -2,20 +2,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+#read in data
 df2 = pd.read_csv('C:/Users/taylorp.DUTRO/Desktop/byweek.csv')
 df = pd.read_csv('C:/Users/taylorp.DUTRO/Desktop/RENPHO-Taylor.csv')
 
+#create figures and axes, format ticks and margins
 f, (ax1, ax3) = plt.subplots(2, figsize=(9,18))
 plt.title('Weight and BMI', size=20)
 plt.xticks(np.arange(0,60,step=3), size=50)
 plt.margins(0)
 
+#create first line plot and graph weight against date
 ax1.plot(df['Date'], df['Weight'], color='mediumblue')
 ax1.set_ylabel('Weight', rotation = 90, color='mediumblue', size=15)
 ax1.tick_params(axis='y', labelcolor='mediumblue', labelsize=15)
 ax1.tick_params(axis='x',rotation=70, labelsize=13.5)
 ax1.margins(0)
 
+#create shared y axis and graph BMI against date
 ax2 = ax1.twinx()
 ax2.margins(0)
 ax2.plot(df['Date'], df['BMI'], color = 'red',linestyle='--')
@@ -31,6 +35,7 @@ ax2.text(-0.25,28.25,'28.6 BMI',alpha=1, size = 10, horizontalalignment='right',
 ax2.text(1.008,.07,'181.4 lb',alpha=1, size = 10, horizontalalignment='left',transform=ax2.transAxes, fontsize = 13.5)
 ax2.text(1.008,.03,'22.1 BMI',alpha=1, size = 10, horizontalalignment='left',transform=ax2.transAxes, fontsize = 13.5)
 
+#create 2nd chart, graph body fat perc bar graph against week
 ax3.bar(df2['Week'], df2['BodyFatPercChange'], color='royalblue')
 ax3.set_title('Body Fat % Lost by Week', fontsize=20)
 ax3.grid()
