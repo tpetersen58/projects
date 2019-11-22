@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+df2 = pd.read_csv('C:/Users/taylorp.DUTRO/Desktop/byweek.csv')
+df = pd.read_csv('C:/Users/taylorp.DUTRO/Desktop/RENPHO-Taylor.csv')
+
+f, (ax1, ax3) = plt.subplots(2, figsize=(9,18))
+plt.title('Weight and BMI', size=20)
+plt.xticks(np.arange(0,60,step=3), size=50)
+plt.margins(0)
+
+ax1.plot(df['Date'], df['Weight'], color='mediumblue')
+ax1.set_ylabel('Weight', rotation = 90, color='mediumblue', size=15)
+ax1.tick_params(axis='y', labelcolor='mediumblue', labelsize=15)
+ax1.tick_params(axis='x',rotation=70, labelsize=13.5)
+ax1.margins(0)
+
+ax2 = ax1.twinx()
+ax2.margins(0)
+ax2.plot(df['Date'], df['BMI'], color = 'red',linestyle='--')
+ax2.set_ylabel('BMI', rotation = 90, color='red',size=15)
+ax2.tick_params(axis='y', labelcolor='red', labelsize=15)
+ax2.axhspan(25,28.6, facecolor='yellow', alpha=0.3)
+ax2.axhspan(22.1,25, facecolor='green', alpha=0.3)
+ax2.grid(alpha=0.5)
+ax2.text(.5,.7,'OVERWEIGHT',alpha=1, color='gold', size = 20,horizontalalignment='center',transform=ax2.transAxes)
+ax2.text(.5,.2,'HEALTHY WEIGHT',alpha=1, color='green', size = 20,horizontalalignment='center',transform=ax2.transAxes)
+ax2.text(-0.25,28.5,'235 lb',alpha=1, size = 10, horizontalalignment='right', fontsize = 13.5)
+ax2.text(-0.25,28.25,'28.6 BMI',alpha=1, size = 10, horizontalalignment='right', fontsize = 13.5)
+ax2.text(1.008,.07,'181.4 lb',alpha=1, size = 10, horizontalalignment='left',transform=ax2.transAxes, fontsize = 13.5)
+ax2.text(1.008,.03,'22.1 BMI',alpha=1, size = 10, horizontalalignment='left',transform=ax2.transAxes, fontsize = 13.5)
+
+ax3.bar(df2['Week'], df2['BodyFatPercChange'], color='royalblue')
+ax3.set_title('Body Fat % Lost by Week', fontsize=20)
+ax3.grid()
+ax3.set_axisbelow(True)
+ax3.set_facecolor('whitesmoke')
+ax3.xaxis.set_ticks(np.arange(1,0,step=3))
+ax3.text(.5, -.15, 'Week 1',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(5.6, -.15, 'Week 6',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(10.6, -.165, 'Week 11',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(15.6, -.165, 'Week 16',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(20.6, -.165, 'Week 21',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(25.6, -.165, 'Week 26',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.text(30.6, -.165, 'Week 31',rotation=70,horizontalalignment='right', fontsize = 13.5)
+ax3.tick_params(axis='y', labelsize=15)
+ax3.text(15.8, .75, 'Total Body Fat Loss: 10.6% / 33 wks',horizontalalignment='left', size = 14, color='mediumblue')
+ax3.text(15.8, .70, 'Avg Body Fat Loss: .309% / wk ',horizontalalignment='left', size = 14, color='mediumblue')
+
+#plt.show()
+plt.savefig(fname='WL.png')
+
+
+
