@@ -1,0 +1,1 @@
+robocopy "T:" "C:\tech" /e /zb /r:3 /w:5 /np /eta /Log:C:\Copyresults.txt
