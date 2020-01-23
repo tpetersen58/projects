@@ -1,0 +1,49 @@
+Normalization
+--SYNTAX
+Determinant --> (Functional) Dependency  
+OR
+TABLE(Primary, non-key, non-key)
+
+--1ST NORMAL FORM
+D – Data Type Consistency (fifty vs 50)
+R - No Repeating Groups (No data pertaining to one row split across multiple)
+O – Rule of One Instance (One value per cell)
+P - Primary Key Established
+
+--2nd NORMAL FORM - Partial Dependency Issue – Non-key can be determined by only ONE part of composite key
+
+AB --> NOP
+B --> P
+FIX
+AB --> NO
+B --> P
+
+--3rd NORMAL FORM - Transitive Dependency Issue – Non-key being determined by another non-key.
+A --> BNOP
+B --> P
+FIX
+A --> BNO
+B --> P
+
+
+--3.5 (BOYCE-CODD) NORMAL FORM – Like 3rd NF, but a non-key determining a key.
+AB --> NOP
+N --> B
+FIX
+AN --> OP
+N --> B
+
+--4th NORMAL FORM – Multivalued Dependency Issue – Multiple values of same type (multiple phone numbers, majors) in multiple columns of same row.
+
+AB --> NOP1P2P3
+FIX
+AB --> NO
+AP
+
+
+--FORMULA FOR FIXING
+1. Find the issue
+2. Make a new table out of the issue
+3. Remove unnecessary parts from original table
+4. Establish relationship between the tables
+
